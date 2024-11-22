@@ -1,0 +1,19 @@
+global:
+  scrape_interval: 10s
+
+scrape_configs:
+  - job_name: 'api_gateway'
+    static_configs:
+      - targets: ['api-gateway:3000']
+
+  - job_name: 'crm_system'
+    static_configs:
+      - targets: ['crm-system:3001']
+
+  - job_name: 'inventory_system'
+    static_configs:
+      - targets: ['inventory-system:3002']
+
+  - job_name: 'support_system'
+    static_configs:
+      - targets: ['support-system:3003']

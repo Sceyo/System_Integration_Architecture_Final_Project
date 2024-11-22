@@ -1,0 +1,47 @@
+{
+    "dashboard": {
+      "id": null,
+      "uid": "service-metrics",
+      "title": "Service Metrics Dashboard",
+      "panels": [
+        {
+          "type": "graph",
+          "title": "API Gateway Requests",
+          "targets": [
+            {
+              "target": "api_gateway_requests"
+            }
+          ]
+        },
+        {
+          "type": "graph",
+          "title": "CRM System Requests",
+          "targets": [
+            {
+              "target": "crm_system_requests"
+            }
+          ]
+        },
+        {
+          "type": "graph",
+          "title": "Inventory System Requests",
+          "targets": [
+            {
+              "target": "inventory_system_requests"
+            }
+          ]
+        },
+        {
+          "type": "graph",
+          "title": "Support System Requests",
+          "targets": [
+            {
+              "target": "support_system_requests"
+            }
+          ]
+        }
+      ]
+    },
+    "overwrite": false
+  }
+  
