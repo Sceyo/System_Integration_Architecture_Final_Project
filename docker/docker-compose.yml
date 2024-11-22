@@ -1,0 +1,63 @@
+version: '3.7'
+
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.gateway
+    ports:
+      - "3000:3000"
+    depends_on:
+      - crm-system
+      - inventory-system
+      - support-system
+    environment:
+      - NODE_ENV=production
+
+  crm-system:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.crm
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - mongodb
+
+  inventory-system:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.inventory
+    ports:
+      - "3002:3002"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - mongodb
+
+  support-system:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.support
+    ports:
+      - "3003:3003"
+    environment:
+      - NODE_ENV=production
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=rootpassword
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
+    driver: local

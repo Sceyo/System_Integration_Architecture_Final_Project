@@ -1,0 +1,20 @@
+# Use a Node.js base image
+FROM node:16
+
+# Set working directory
+WORKDIR /usr/src/app
+
+# Copy package.json and package-lock.json
+COPY api-gateway/package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code
+COPY api-gateway/ .
+
+# Expose the port the API Gateway will run on
+EXPOSE 3000
+
+# Command to run the application
+CMD ["node", "server.js"]
