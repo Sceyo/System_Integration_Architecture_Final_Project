@@ -1,33 +1,63 @@
-const Ticket = require('../models/Ticket');
-
-// Create a new ticket
-const createTicket = async (data) => {
-    const ticket = new Ticket(data);
-    return await ticket.save();
-};
-
-// Get all tickets
-const getTickets = async () => {
-    return await Ticket.find().populate('customerId', 'name email');
-};
-
-// Get a ticket by ID
-const getTicketById = async (id) => {
-    return await Ticket.findById(id).populate('customerId', 'name email');
-};
-
-// Update ticket status
-const updateTicketStatus = async (id, status) => {
-    return await Ticket.findByIdAndUpdate(
-        id,
-        { status },
-        { new: true, runValidators: true }
-    );
-};
-
-module.exports = {
+const express = require('express');
+const router = express.Router();
+const {
     createTicket,
     getTickets,
     getTicketById,
     updateTicketStatus,
-};
+} = require('../services/supportService');
+
+// Create a new ticket
+router.post('/', async (req, res) => {
+    try {
+        const ticket = await createTicket(req.body);
+        res.status(201).json(ticket);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'Failed to create ticket' });
+    }
+});
+
+// Get all tickets
+router.get('/', async (req, res) => {
+    try {
+        const tickets = await getTickets();
+        res.json(tickets);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'Failed to fetch tickets' });
+    }
+});
+
+// Get a ticket by ID
+router.get('/:id', async (req, res) => {
+    try {
+        const ticket = await getTicketById(req.params.id);
+        if (!ticket) return res.status(404).json({ error: 'Ticket not found' });
+        res.json(ticket);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'Failed to fetch ticket' });
+    }
+});
+
+// Update ticket status
+router.put('/:id/status', async (req, res) => {
+    const allowedStatuses = ['Open', 'In Progress', 'Resolved', 'Closed'];
+    
+    // Check if status is valid
+    if (!allowedStatuses.includes(req.body.status)) {
+        return res.status(400).json({ error: 'Invalid status value' });
+    }
+
+    try {
+        const updatedTicket = await updateTicketStatus(req.params.id, req.body.status);
+        if (!updatedTicket) return res.status(404).json({ error: 'Ticket not found' });
+        res.json(updatedTicket);
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json({ error: 'Failed to update ticket status' });
+    }
+});
+
+module.exports = router;

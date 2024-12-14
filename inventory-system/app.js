@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const connectDB = require('./config/db'); // Importing the connectDB function
 const productRoutes = require('./routes/productRoutes');
 const errorHandler = require('./middlewares/errorHandler'); // Error handling middleware
 
@@ -8,11 +8,8 @@ const app = express();
 // Middleware
 app.use(express.json());
 
-// Database Connection
-mongoose
-    .connect('mongodb://localhost:27017/inventory', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Connected to Inventory Database'))
-    .catch((err) => console.error('Database connection error:', err));
+// Connect to the database
+connectDB(); // Calling the connectDB function to establish a connection
 
 // Routes
 app.use('/products', productRoutes);
