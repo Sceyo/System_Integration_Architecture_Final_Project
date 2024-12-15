@@ -1,0 +1,13 @@
+Dol, delete ni after.
+
+Mo run ang CRM-SYSTEM pero wala nako gi test ang mga roles.
+Ang pag run sa server is 
+cd api-gateway
+node api-gateway/server.js
+
+open ka lain terminal 
+cd crm-system
+node app.js
+
+Mo error ang Support system og Inventory system kay wrong daw ang database URL niya. Wa ko kahibaw sa DB URL. 
+Pangutana lng Millor. 
