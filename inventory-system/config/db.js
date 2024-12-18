@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 // MongoDB connection string from environment variable or fallback to local MongoDB
-const DB_URI = process.env.INVENTORY_DB_URI || 'mongodb://localhost:27017/inventory-db';
+const DB_URI = process.env.INVENTORY_DB_URI || 'mongodb://localhost:27017/inventory';
 
 const connectDB = async () => {
     try {
